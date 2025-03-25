@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Mail Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+            color: #333;
+        }
+        header, footer {
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        footer {
+            margin-top: auto; /* Push the footer to the bottom */
+            padding: 10px 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 300px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        h2 {
+            color: #e2e5e8;
+            margin-bottom: 25px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            background: #f9f9f9;
+        }
+        input:focus {
+            background: #e8f0fe;
+            border-color: #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .result.spam {
+            color: #e74c3c; /* Red for Spam */
+        }
+        .result.not-spam {
+            color: #2ecc71; /* Green for Not Spam */
+        }
+        .loading {
+            display: none;
+            font-size: 18px;
+            color: #3498db;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+    <h1>Spam Mail Detection</h1>
+    <p>Check your emails for potential spam</p>
+</header>
+
+<!-- Login Form -->
+<div class="container" id="loginForm">
+    <h2>Login</h2>
+    <input type="text" id="loginName" placeholder="Enter your name" required><br>
+    <input type="email" id="loginEmail" placeholder="Enter your email" required><br>
+    <input type="text" id="loginPhone" placeholder="Enter your phone number" required><br>
+    <button id="loginBtn">Login</button>
+</div>
+
+<!-- Spam Detection Form -->
+<div class="container hidden" id="spamDetectionForm">
+    <h2>Spam Mail Detection</h2>
+    <textarea id="emailContent" placeholder="Enter the email content here..." rows="6"></textarea><br>
+    <button id="submitBtn">Check for Spam</button>
+    <div class="result" id="result"></div>
+    <div class="loading" id="loading">Checking...</div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2025 Spam Mail Detection. All rights reserved.</p>
+</footer>
+
+<script>
+    // Login functionality
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        const name = document.getElementById('loginName').value;
+        const email = document.getElementById('loginEmail').value;
+        const phone = document.getElementById('loginPhone').value;
+
+        if (name.trim() === '' || email.trim() === '' || phone.trim() === '') {
+            alert("Please fill in all fields");
+            return;
+        }
+
+        // Store user data (in a real app, you would send this to the server)
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPhone', phone);
+
+        // Simulate login success
+        alert("Login successful!");
+
+        // Hide login form and show spam detection form
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('spamDetectionForm').classList.remove('hidden');
+    });
+
+    // Spam detection functionality
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        const emailContent = document.getElementById('emailContent').value;
+        
+        if (emailContent.trim() === '') {
+            alert("Please enter the email content!");
+            return;
+        }
+
+        // Show loading message
+        document.getElementById('loading').classList.add('show');
+        document.getElementById('result').textContent = '';
+
+        // Mock spam detection logic
+        setTimeout(() => {
+            document.getElementById('loading').classList.remove('show');
+            
+            // Mock spam result (check for specific keywords)
+            const isSpam = emailContent.includes("win money");
+            const resultDiv = document.getElementById('result');
+            
+            if (isSpam) {
+                resultDiv.textContent = 'Result: Spam';
+                resultDiv.classList.add('spam');
+                resultDiv.classList.remove('not-spam');
+            } else {
+                resultDiv.textContent = 'Result: Not Spam';
+                resultDiv.classList.add('not-spam');
+                resultDiv.classList.remove('spam');
+            }
+        }, 2000); // Simulate delay for spam checking
+    });
+</script>
+
+</body>
+</html>
